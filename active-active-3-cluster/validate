@@ -1,4 +1,4 @@
-validate_mapBak1HD@class=hzcmd.cache.member.multi.MultiValidateNotNull
+validate_mapBak1HD@class=hzcmd.map.member.multi.MultiValidateNotNull
 validate_mapBak1HD@driver=Member
 validate_mapBak1HD@seed=13
 validate_mapBak1HD@count=8
