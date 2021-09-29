@@ -53,7 +53,7 @@ hz embeddedRestart -id A Member
 
 pubIp=$(hz ip -id A Member1);
 for i in {0..8} ; do
-    for group in B C D E ${hzVersion} ; do
+    for group in B C ${hzVersion} ; do
         curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD${i}" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
     done
 done
