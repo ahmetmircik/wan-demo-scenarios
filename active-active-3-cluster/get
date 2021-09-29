@@ -1,4 +1,4 @@
-get_mapBak1HD@class=hz.map.multi.Get
+get_mapBak1HD@class=hzcmd.map.multi.Get
 get_mapBak1HD@driver=Client
 get_mapBak1HD@threads=16
 get_mapBak1HD@interval=0

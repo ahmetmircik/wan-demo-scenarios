@@ -1,1 +1,1 @@
-shutdown@class=hz.ops.ShutDown
+shutdown@class=hzcmd.ops.ShutDown
