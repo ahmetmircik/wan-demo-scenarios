@@ -12,7 +12,7 @@ cleanup() {
 }
 trap "cleanup" INT TERM EXIT
 
-ec2Type="c4.2xlarge"
+ec2Type="m6g.xlarge"
 aws-create --count 3 --instanceType ${ec2Type} --outputFile a.box
 aws-create --count 3 --instanceType ${ec2Type} --outputFile b.box
 aws-create --count 3 --instanceType ${ec2Type} --outputFile c.box
