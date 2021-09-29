@@ -6,6 +6,7 @@ put_mapBak1HD@count=8
 put_mapBak1HD@keyDomain=10000
 put_mapBak1HD@valueSetSize=10
 put_mapBak1HD@valueMinSize=4000
+put_mapBak1HD@@valueType=PersonRandom
 put_mapBak1HD@valueMaxSize=20000
 put_mapBak1HD@name=mapBak1HD
 put_mapBak1HD@ignore=com.hazelcast.core.HazelcastInstanceNotActiveException
