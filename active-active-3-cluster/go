@@ -4,12 +4,6 @@ set -e
 
 hzVersion=${1:-$(hazelcastVersion)}
 
-cleanup() {
-    exitCode=$?
-    hz download
-    hz chart metrics
-    exit ${exitCode}
-}
 trap "cleanup" INT TERM EXIT
 
 ec2Type="m6g.xlarge"
@@ -35,24 +29,13 @@ hz wan B C A
 hz wan C A B
 
 hz driver Client1
-hz run -id '(A|B|C)' put &
+for clusterID in A B C ; do
+    hz go -id ${clusterID} -f prefixPut${clusterID} hzcmd.map.multi.PreFixPut prefix=${clusterID} driver=Client1 name=mapBak1HD keyDomain=10000 valueSize=1024 valueType=PersonRandom &
+done
 
 hz driver Client2
 hz run -id '(A|B|C)' get &
 
-hz run validate
-
-until hz run clusterSafe; do
-    sleep 10
-done
-hz run validate
-
-hz run -id A put &
-hz run -id '(B|C)' get &
-wait
-
-hz run -id A clusterShutdown
-hz embeddedRestart -id A Member
 
 pubIp=$(hz ip -id A Member1);
 for i in {0..8} ; do
