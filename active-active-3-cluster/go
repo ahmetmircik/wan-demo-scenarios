@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# TODO
+#Start clusters in different zones
+
 set -e
 
 hzVersion=${1:-$(hazelcastVersion)}
@@ -37,7 +40,8 @@ done
 hz driver Client2
 hz run -id '(A|B|C)' get &
 
-sleep 30
+echo "Sleeping 300 seconds"
+sleep 300
 
 #pubIp=$(hz ip -id A Member1);
 #for group in B C ${hzVersion} ; do
@@ -51,4 +55,5 @@ wait
 hz download
 
 hz wipe
-#aws-terminate
+aws-terminate a.box b.box c.box
+
