@@ -42,4 +42,12 @@ for i in {0..8} ; do
     done
 done
 
+hz stop
+wait
+
+hz download
+
+hz wipe
+aws-terminate
+
 
