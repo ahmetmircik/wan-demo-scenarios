@@ -30,7 +30,11 @@ hz wan A B C
 hz wan B C A
 hz wan C A B
 
-until hz run clusterSafe; do
+#for the new wan configuration to take effect the cluster must be bounced
+# "restarted" and the new xml config will be used
+hz bounce Member
+
+until hz run untilClusterSafe; do
     sleep 10
 done
 
