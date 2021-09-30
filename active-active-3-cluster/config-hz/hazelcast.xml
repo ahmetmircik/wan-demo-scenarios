@@ -41,6 +41,10 @@
     <map name="mapBak1HD*">
         <backup-count>1</backup-count>
         <in-memory-format>NATIVE</in-memory-format>
+
+        <wan-replication-ref name="wanReplication">
+            <merge-policy>com.hazelcast.map.merge.PassThroughMergePolicy</merge-policy>
+        </wan-replication-ref>
     </map>
 
 </hazelcast>
