@@ -17,6 +17,9 @@
             <tcp-ip enabled="true">
             </tcp-ip>
         </join>
+        <rest-api enabled="true">
+            <endpoint-group name="WAN" enabled="true"/>
+        </rest-api>
     </network>
 
     <serialization>
