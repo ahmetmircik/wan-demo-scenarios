@@ -7,7 +7,6 @@
     </properties>
 
 
-
     <network>
         <port auto-increment="true" port-count="200">5701</port>
         <join>
@@ -35,179 +34,13 @@
     </hot-restart-persistence>
 
     <native-memory allocator-type="POOLED" enabled="true">
-        <size unit="GIGABYTES" value="1"/>
+        <size unit="GIGABYTES" value="10"/>
     </native-memory>
 
-    <cache name="cacheBak0HD*">
-        <in-memory-format>NATIVE</in-memory-format>
-        <backup-count>0</backup-count>
-        <statistics-enabled>false</statistics-enabled>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-        <hot-restart enabled="true">
-            <fsync>true</fsync>
-        </hot-restart>
-    </cache>
-
-    <cache name="cacheBak1HD*">
-        <in-memory-format>NATIVE</in-memory-format>
-        <backup-count>1</backup-count>
-        <statistics-enabled>false</statistics-enabled>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </cache>
-
-    <cache name="cacheAsync1HD*">
-        <in-memory-format>NATIVE</in-memory-format>
-        <backup-count>0</backup-count>
-        <async-backup-count>1</async-backup-count>
-        <statistics-enabled>false</statistics-enabled>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </cache>
-
-
-    <cache name="cacheBak0*">
-        <in-memory-format>BINARY</in-memory-format>
-        <backup-count>0</backup-count>
-        <statistics-enabled>false</statistics-enabled>
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </cache>
-
-    <cache name="cacheBak1*">
-        <in-memory-format>BINARY</in-memory-format>
-        <backup-count>1</backup-count>
-        <statistics-enabled>false</statistics-enabled>
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </cache>
-
-    <cache name="cacheAsync1*">
-        <in-memory-format>BINARY</in-memory-format>
-        <backup-count>0</backup-count>
-
-        <async-backup-count>1</async-backup-count>
-        <statistics-enabled>false</statistics-enabled>
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </cache>
-
-
-    <map name="mapBak0HD*">
-        <backup-count>0</backup-count>
-        <in-memory-format>NATIVE</in-memory-format>
-
-        <merkle-tree enabled="false" ></merkle-tree>
-
-        <hot-restart enabled="true">
-            <fsync>true</fsync>
-        </hot-restart>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-    </map>
 
     <map name="mapBak1HD*">
         <backup-count>1</backup-count>
         <in-memory-format>NATIVE</in-memory-format>
-
-        <merkle-tree enabled="false" ></merkle-tree>
-
-        <indexes>
-            <index name="a" type="SORTED">
-                <attributes>
-                    <attribute>personId</attribute>
-                </attributes>
-            </index>
-        </indexes>
-
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-    </map>
-
-    <map name="mapBak1HDIdle*">
-        <backup-count>1</backup-count>
-        <in-memory-format>NATIVE</in-memory-format>
-
-        <merkle-tree enabled="false" ></merkle-tree>
-
-        <max-idle-seconds>1</max-idle-seconds>
-
-        <indexes>
-            <index name="a" type="SORTED">
-                <attributes>
-                    <attribute>personId</attribute>
-                </attributes>
-            </index>
-        </indexes>
-
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-    </map>
-
-    <map name="mapAsync1HD*">
-        <backup-count>0</backup-count>
-        <async-backup-count>1</async-backup-count>
-        <in-memory-format>NATIVE</in-memory-format>
-
-        <merkle-tree enabled="false" ></merkle-tree>
-
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-        <eviction eviction-policy="LRU" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" size="15"/>
-    </map>
-
-
-    <map name="mapBak0*">
-        <in-memory-format>BINARY</in-memory-format>
-        <backup-count>0</backup-count>
-
-        <merkle-tree enabled="true" ></merkle-tree>
-
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </map>
-
-    <map name="mapBak1*">
-        <in-memory-format>BINARY</in-memory-format>
-        <backup-count>1</backup-count>
-
-        <merkle-tree enabled="true" ></merkle-tree>
-
-        <indexes>
-            <index name="a" type="SORTED">
-                <attributes>
-                    <attribute>personId</attribute>
-                </attributes>
-            </index>
-        </indexes>
-
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
-    </map>
-
-    <map name="mapAsync1*">
-        <in-memory-format>BINARY</in-memory-format>
-        <backup-count>0</backup-count>
-        <async-backup-count>1</async-backup-count>
-
-        <merkle-tree enabled="true" ></merkle-tree>
-
-        <hot-restart enabled="true">
-            <fsync>false</fsync>
-        </hot-restart>
     </map>
 
 </hazelcast>
