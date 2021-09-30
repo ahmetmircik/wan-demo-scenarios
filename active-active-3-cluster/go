@@ -28,7 +28,8 @@ hz wan C A B
 
 hz driver Client1
 for clusterID in A B C ; do
-    hz go -id ${clusterID} -f prefixPut${clusterID} hzcmd.map.multi.PreFixPut prefix=${clusterID} driver=Client1 name=mapBak1HD keyDomain=10000 valueSize=1024 valueType=PersonRandom &
+    hz task preFixPut put_mapBak1HD prefix ${clusterID}
+    hz run -id ${clusterID} preFixPut &
 done
 
 hz driver Client2
@@ -36,9 +37,9 @@ hz run -id '(A|B|C)' get &
 
 
 pubIp=$(hz ip -id A Member1);
-    for group in B C ${hzVersion} ; do
-        curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
-    done
+for group in B C ${hzVersion} ; do
+    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
+done
 
 hz stop
 wait
