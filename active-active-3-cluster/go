@@ -27,11 +27,11 @@ hz wan B C A
 hz wan C A B
 
 hz driver Client1
-for clusterID in A B C ; do
-    #  change prefix in file
-    hz task preFixPut put_mapBak1HD prefix ${clusterID}
-    #  async run preFixPut
-    hz submit -id ${clusterID} preFixPut
+for clusterID in A B C; do
+  #  change prefix in file
+  hz task preFixPut put_mapBak1HD prefix ${clusterID}
+  #  async run preFixPut
+  hz submit -id ${clusterID} preFixPut
 done
 
 hz driver Client2
@@ -39,10 +39,11 @@ hz run -id '(A|B|C)' get &
 
 sleep 30
 
-pubIp=$(hz ip -id A Member1);
-for group in B C ${hzVersion} ; do
-    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
-done
+#pubIp=$(hz ip -id A Member1);
+#for group in B C ${hzVersion} ; do
+#    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
+#done
+echo "Stopping test"
 
 hz stop
 wait
@@ -51,5 +52,3 @@ hz download
 
 hz wipe
 aws-terminate
-
-
