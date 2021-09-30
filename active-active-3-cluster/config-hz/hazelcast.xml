@@ -7,6 +7,7 @@
     <properties>
         <property name="hazelcast.phone.home.enabled">false</property>
         <property name="hazelcast.partition.count">271</property>
+        <property name="hazelcast.network.rest-api.enabled">true</property>
     </properties>
 
 

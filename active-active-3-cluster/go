@@ -23,7 +23,7 @@ ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.b
 ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
 
 mOps="${mOps} -Dhazelcast.connection.monitor.interval=1000 -Dhazelcast.connection.monitor.max.faults=30"
-mOps="${mOps} -Dhz.network.rest-api.endpoint-groups.wan.enabled=true"
+mOps="${mOps} -Dhz.network.rest-api.enabled=true -Dhz.network.rest-api.endpoint-groups.wan.enabled=true"
 
 hz memberOps "-Xms4G -Xmx4G ${ops} ${mOps}"
 hz clientOps "-Xms400M -Xmx400M ${ops}"
