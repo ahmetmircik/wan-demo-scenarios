@@ -51,4 +51,4 @@ wait
 hz download
 
 hz wipe
-aws-terminate
+#aws-terminate
