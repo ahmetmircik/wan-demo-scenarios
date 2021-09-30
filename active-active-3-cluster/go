@@ -15,9 +15,12 @@ set -e
 
 hzVersion=${1:-$(hazelcastVersion)}
 
-aws-create --count 3 --outputFile a.box
-aws-create --count 3 --outputFile b.box
-aws-create --count 3 --outputFile c.box
+#us-west-1	US West (N. California)
+#US East (N. Virginia) us-east-1
+#Texas is Ohio (us-east-2)
+aws-create --count 3 --region us-west-1 --outputFile a.box
+aws-create --count 3 --region us-east-1 --outputFile b.box
+aws-create --count 3 --region us-east-2 --outputFile c.box
 
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.backpressure.enabled=true"
 ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
