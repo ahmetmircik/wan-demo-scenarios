@@ -4,8 +4,6 @@ set -e
 
 hzVersion=${1:-$(hazelcastVersion)}
 
-trap "cleanup" INT TERM EXIT
-
 ec2Type="m6g.xlarge"
 aws-create --count 3 --instanceType ${ec2Type} --outputFile a.box
 aws-create --count 3 --instanceType ${ec2Type} --outputFile b.box
