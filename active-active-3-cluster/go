@@ -15,7 +15,7 @@ aws-create --count 3 --instanceType ${ec2Type} --outputFile c.box
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.backpressure.enabled=true"
 ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
 
-mOps="${mOps} -Dhazelcast.connection.monitor.interval=1000 -Dhazelcast.connection.monitor.max.faults=30 -Dhazelcast.rest.enabled=true"
+mOps="${mOps} -Dhazelcast.connection.monitor.interval=1000 -Dhazelcast.connection.monitor.max.faults=30 -Dhz.network.rest-api.enabled=true"
 
 hz memberOps "-Xms4G -Xmx4G ${ops} ${mOps}"
 hz clientOps "-Xms400M -Xmx400M ${ops}"
@@ -28,6 +28,10 @@ echo 'WAN Active Active'
 hz wan A B C
 hz wan B C A
 hz wan C A B
+
+until hz run clusterSafe; do
+    sleep 10
+done
 
 hz driver Client1
 for clusterID in A B C; do
