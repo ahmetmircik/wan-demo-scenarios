@@ -50,7 +50,7 @@
         <in-memory-format>NATIVE</in-memory-format>
 
         <wan-replication-ref name="wanReplication">
-            <merge-policy-class-name>PassThroughMergePolicy</merge-policy-class-name>
+            <merge-policy-class-name>com.hazelcast.spi.merge.PassThroughMergePolicy</merge-policy-class-name>
         </wan-replication-ref>
     </map>
 

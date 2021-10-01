@@ -4,7 +4,18 @@
         <cluster-members>
         </cluster-members>
         <smart-routing>true</smart-routing>
+        <connection-timeout>333</connection-timeout>
     </network>
+
+    <connection-strategy>
+        <connection-retry>
+            <initial-backoff-millis>1</initial-backoff-millis>
+            <max-backoff-millis>2</max-backoff-millis>
+            <multiplier>2</multiplier>
+            <cluster-connect-timeout-millis>50000</cluster-connect-timeout-millis>
+            <jitter>0.1</jitter>
+        </connection-retry>
+    </connection-strategy>
 
     <serialization>
         <data-serializable-factories>
