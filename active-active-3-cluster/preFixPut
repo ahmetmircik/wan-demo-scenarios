@@ -1,15 +1,15 @@
-put_mapBak1HD@class=hzcmd.map.multi.PreFixPut
-put_mapBak1HD@driver=Client
-put_mapBak1HD@threads=5
-put_mapBak1HD@interval=1
-put_mapBak1HD@count=8
-put_mapBak1HD@keyDomain=10
-put_mapBak1HD@valueSetSize=10
-put_mapBak1HD@valueMinSize=4000
-put_mapBak1HD@valueType=PersonDataSerializable
-put_mapBak1HD@valueMaxSize=20000
-put_mapBak1HD@name=mapBak1HD
-put_mapBak1HD@prefix=A
-put_mapBak1HD@ignore=com.hazelcast.core.HazelcastInstanceNotActiveException
+put@class=hzcmd.map.multi.PreFixPut
+put@driver=Client1
+put@threads=5
+put@interval=1
+put@count=6
+put@keyDomain=10
+put@valueSetSize=10
+put@valueMinSize=1024
+put@valueMaxSize=4096
+put@valueType=PersonDataSerializable
+put@name=mapBak1HD
+put@prefix=A
+put@ignore=com.hazelcast.core.HazelcastInstanceNotActiveException
 
 
