@@ -1,4 +1,4 @@
 put@class=hzcmd.map.Put
 put@threads=4
-put@keyDomain=1000
+put@keyDomain=100
 put@name=mapBak1HD
