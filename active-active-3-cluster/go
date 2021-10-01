@@ -75,7 +75,7 @@ hz download
 
 hz wipe
 
-aws-terminate -region us-west-1 a.box
-aws-terminate -region us-east-1 b.box
-aws-terminate -region us-east-2 c.box
+aws-terminate -r us-west-1 a.box
+aws-terminate -r us-east-1 b.box
+aws-terminate -r us-east-2 c.box
 
