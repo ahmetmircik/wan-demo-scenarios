@@ -49,7 +49,7 @@ until hz run untilClusterSafe; do
 done
 
 hz driver Client2
-hz run -id '(A|B|C)' listenMerged
+hz run -id '(A|B|C)' listenAdded
 
 hz driver Client1
 for clusterID in A B C; do
