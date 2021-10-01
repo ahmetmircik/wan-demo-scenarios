@@ -11,9 +11,4 @@ prefixPut@name=mapBak1HD
 prefixPut@prefix=A
 prefixPut@ignore=com.hazelcast.core.HazelcastInstanceNotActiveException
 
-put@class=hzcmd.map.Put
-put@threads=4
-put@keyDomain=100
-put@name=mapBak1HD
-
 
