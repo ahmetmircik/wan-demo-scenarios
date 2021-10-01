@@ -1,4 +1,4 @@
-EntryMerged@class=hzcmd.map.listener.entry.EntryMerged
+EntryMerged@class=hzcmd.map.listener.entry.EntryMergedMulti
 EntryMerged@driver=Client2.*(A|B|C)
 EntryMerged@threads=1
 EntryMerged@updateTime=100
