@@ -52,7 +52,15 @@ hz driver Client2
 hz run -id '(A|B|C)' listenMergedMulti
 
 hz driver Client1
-hz run -id '(A|B|C)' prefixPut &
+for clusterID in A B C; do
+  #  change prefix in file
+  hz task prefixPut prefixPut prefix ${clusterID}
+  #  async run preFixPut
+  hz submit -id ${clusterID} prefixPut
+done
+
+#hz driver Client1
+#hz run -id '(A|B|C)' prefixPut &
 
 echo "Sleeping 40 seconds"
 sleep 40
