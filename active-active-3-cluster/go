@@ -52,18 +52,10 @@ hz driver Client2
 hz run -id '(A|B|C)' listenMerged
 
 hz driver Client1
-for clusterID in A B C; do
-  #  change prefix in file
-  hz task preFixPut put prefix ${clusterID}
-  #  async run preFixPut
-  hz submit -id ${clusterID} preFixPut
-done
+hz run -id '(A|B|C)' prefixPut &
 
-hz driver Client1
-hz run -id '(A|B|C)' put &
-
-echo "Sleeping 100 seconds"
-sleep 100
+echo "Sleeping 40 seconds"
+sleep 40
 
 #pubIp=$(hz ip -id A Member1);
 #for group in B C ${hzVersion} ; do

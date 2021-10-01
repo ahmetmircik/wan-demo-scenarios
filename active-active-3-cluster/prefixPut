@@ -1,0 +1,15 @@
+prefixPut@class=hzcmd.map.multi.PreFixPut
+prefixPut@driver=Client1
+prefixPut@threads=5
+prefixPut@interval=1
+prefixPut@count=6
+prefixPut@keyDomain=100
+prefixPut@valueSetSize=10
+prefixPut@valueMinSize=1024
+prefixPut@valueMaxSize=4096
+prefixPut@valueType=PersonDataSerializable
+prefixPut@name=mapBak1HD
+prefixPut@prefix=A
+prefixPut@ignore=com.hazelcast.core.HazelcastInstanceNotActiveException
+
+
