@@ -69,13 +69,11 @@ sleep 40
 echo "Stopping test"
 
 hz stop
-wait
 
 echo "Dumping maps"
 hz driver Client2
 hz run -id '(A|B|C)' dump
 
-hz stop
 wait
 
 hz download
