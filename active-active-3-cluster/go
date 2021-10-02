@@ -59,8 +59,8 @@ done
 #hz driver Client1
 #hz run -id '(A|B|C)' prefixPut &
 
-echo "Sleeping 40 seconds"
-sleep 40
+echo "Sleeping 20 seconds"
+sleep 20
 
 #pubIp=$(hz ip -id A Member1);
 #for group in B C ${hzVersion} ; do
