@@ -8,9 +8,6 @@ cleanup() {
 }
 trap "cleanup" INT TERM EXIT
 
-# TODO
-#Start clusters in different zones
-
 set -e
 
 hzVersion=${1:-$(hazelcastVersion)}
@@ -70,6 +67,13 @@ sleep 40
 #    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
 #done
 echo "Stopping test"
+
+hz stop
+wait
+
+echo "Dumping maps"
+hz driver Client2
+hz run -id '(A|B|C)' dump
 
 hz stop
 wait
