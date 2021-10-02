@@ -46,6 +46,7 @@
 
 
     <map name="mapBak1HD*">
+        <per-entry-stats-enabled>true</per-entry-stats-enabled>
         <backup-count>1</backup-count>
         <in-memory-format>NATIVE</in-memory-format>
 
