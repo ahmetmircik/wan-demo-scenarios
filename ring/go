@@ -16,8 +16,8 @@ hzProps="${hzProps} -Dlog4j.configuration=file:./log4j.properties -Dhazelcast.lo
 hz memberOps "-Xms3G -Xmx3G ${hzProps}"
 hz clientOps "-Xms200M -Xmx400M ${hzProps}"
 
-hz cluster -id A -tag AA  -size M2C2 -v 4.1          -ee -boxes a.box -user ec2-user -upcwd log4j.properties
-hz cluster -id B -tag BB  -size M2C2 -v 4.2          -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id A -tag AA  -size M2C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
+hz cluster -id B -tag BB  -size M2C2 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
 hz cluster -id C -tag CC  -size M2C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 
@@ -65,29 +65,12 @@ hz run -id C validateZero
 #heal the network back to normal state.
 hz heal
 
-
-
 #set the duration for the next tasks to be run.
-hz duration 4000
+hz duration 40
 
 #run put operation from all members and all client in all clusters
 #we run this in the background with &,  which allows the script to continue.
 hz run put &
-
-#in the loop we repeatedly split and heal the network.
-#the put operation are still running in the cluster, the wan replication system is working
-#and as the same time we are overflowing the wan queues, putting stress on the cluster.
-#we are looking to see if the clusters OOME / crash under load when the wan connection is
-#unreliable / interupted.
-for i in {0..30} ; do
-    sleep 20
-    hz split AA BB CC
-    sleep 20
-    hz heal
-
-    #hear we just check all the remote cluster for problems.
-    hz check || true
-done
 
 #stop the put operation that are running on the clusters
 hz stop
