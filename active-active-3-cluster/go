@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-cleanup() {
-  exitCode=$?
-  hz download
-  hz chart metrics
-  exit ${exitCode}
-}
-trap "cleanup" INT TERM EXIT
-
 set -e
 
 hzVersion=${1:-$(hazelcastVersion)}
@@ -29,9 +21,9 @@ mOps="${mOps} -Dhz.network.rest-api.enabled=true -Dhz.network.rest-api.endpoint-
 hz memberOps "-Xms4G -Xmx4G ${ops} ${mOps}"
 hz clientOps "-Xms400M -Xmx400M ${ops}"
 
-hz cluster -id A -size M3C2 -v ${hzVersion} -ee -boxes a.box
-hz cluster -id B -size M3C2 -v ${hzVersion} -ee -boxes b.box
-hz cluster -id C -size M3C2 -v ${hzVersion} -ee -boxes c.box
+hz cluster -id A -size M3C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
+hz cluster -id B -size M3C2 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id C -size M3C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 echo 'Configuring WAN Active Active'
 hz wan A B C
