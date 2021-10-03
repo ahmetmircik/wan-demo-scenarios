@@ -58,9 +58,12 @@ sleep 20
 echo "Stopping test"
 hz stop
 
+# sync multiple map
 pubIp=$(hz ip -id A Member1);
-for group in B C ${hzVersion} ; do
-    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD0" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
+
+for group in A B C ; do
+    curl -H "Content-type: text/plain" -X POST -d "C&IGNORE&wanReplication&${group}" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/allmaps
+    sleep 10
 done
 
 echo "Dumping maps"
