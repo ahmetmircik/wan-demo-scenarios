@@ -21,6 +21,7 @@ aws-create --count 3 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnet
 
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.backpressure.enabled=true"
 ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
+ops="${ops} -ea"
 
 mOps="${mOps} -Dhazelcast.connection.monitor.interval=1000 -Dhazelcast.connection.monitor.max.faults=30"
 mOps="${mOps} -Dhz.network.rest-api.enabled=true -Dhz.network.rest-api.endpoint-groups.wan.enabled=true"
