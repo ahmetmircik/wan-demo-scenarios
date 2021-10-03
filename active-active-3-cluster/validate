@@ -1,7 +1,7 @@
 validate_mapBak1HD@class=hzcmd.map.member.multi.MultiValidateNotNull
 validate_mapBak1HD@driver=Member
 validate_mapBak1HD@seed=13
-validate_mapBak1HD@count=8
+validate_mapBak1HD@count=6
 validate_mapBak1HD@keyDomain=10000
 validate_mapBak1HD@valueSetSize=5
 validate_mapBak1HD@valueMinSize=4000

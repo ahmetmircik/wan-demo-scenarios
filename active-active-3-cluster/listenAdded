@@ -1,5 +1,0 @@
-EntryAdded@class=hzcmd.map.listener.entry.EntryAdded
-EntryAdded@driver=Client2.*(A|B|C)
-EntryAdded@threads=1
-EntryAdded@updateTime=100
-EntryAdded@name=mapBak1HD
