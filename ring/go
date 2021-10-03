@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-hzVersion=$(hazelcastVersion)
+hzVersion=${1:-$(hazelcastVersion)}
 
 #creating the ec2 instances in files a b and c
 #a.box is just a list of ip addresses. each line has the format --> public,preivate,instanceID
