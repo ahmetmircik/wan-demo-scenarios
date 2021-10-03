@@ -5,9 +5,9 @@ hzVersion=${1:-$(hazelcastVersion)}
 
 #creating the ec2 instances in files a b and c
 #a.box is just a list of ip addresses. each line has the format --> public,preivate,instanceID
-aws-create --count 2 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
-aws-create --count 2 --region us-east-1 --outputFile b.box
-aws-create --count 2 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
+aws-create --count 2 --outputFile a.box
+aws-create --count 2 --outputFile b.box
+aws-create --count 2 --outputFile c.box
 
 #these are member and client jvm option which will be passed to the remote jvm running on the ec2 instances
 #we are using EE jars so we set the license key.
@@ -45,48 +45,19 @@ hz run -id A load
 #hear we sleep a littel to wait for wan replication to fill the structs on the other caches.
 sleep 15
 
-#hear we run validate on all member of all clusters, to check the data is replicated as expected.
-hz run validate
-
-#we clea the data from all structs in all Clusters.
-hz run clear
-hz run validateZero
-
-
-#create a network split, blocking TCP coms IN and OUT  between AA and BB  and AA and CC, so AA is isolated
-#hear we are using the tag name AA split from BB and CC
 hz split AA BB CC
 
-#we make the same load on cluster A
-hz run -id A load
-hz run -id A validate
-sleep 15
-
-#hear we expect that the structs in BB and CC are empty, as wan replication can not happen
-hz run -id B validateZero
-hz run -id C validateZero
-
+sleep 10
 #heal the network back to normal state.
 hz heal
 
-#set the duration for the next tasks to be run.
-hz duration 40
-
-#run put operation from all members and all client in all clusters
-#we run this in the background with &,  which allows the script to continue.
-hz run put &
 
 #stop the put operation that are running on the clusters
 hz stop
 wait
 
-#wait for wan queue to be cleared after all there puts
-sleep 60
-#another quick clear and load, just to check replication is still working after the split heal cycle.
-hz run clear
-hz run validateZero
+hz download
 
-hz run -id A load
-sleep 15
-hz run validate
+hz wipe
 
+aws-terminate a.box b.box c.box
