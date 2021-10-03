@@ -1,5 +1,0 @@
-untilClusterSafe@class=hzcmd.ops.UntilClusterSafe
-untilClusterSafe@pause=4
-untilClusterSafe@max=300
-untilClusterSafe@duration=0
-untilClusterSafe@driver=Member
