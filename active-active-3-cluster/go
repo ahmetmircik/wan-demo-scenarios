@@ -55,13 +55,13 @@ done
 echo "Sleeping 20 seconds"
 sleep 20
 
-#pubIp=$(hz ip -id A Member1);
-#for group in B C ${hzVersion} ; do
-#    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
-#done
 echo "Stopping test"
-
 hz stop
+
+pubIp=$(hz ip -id A Member1);
+for group in B C ${hzVersion} ; do
+    curl -H "Content-type: text/plain" -X POST -d "wanReplication&${group}&mapBak1HD0" --URL http://${pubIp}:5701/hazelcast/rest/wan/sync/map
+done
 
 echo "Dumping maps"
 hz driver Client2
