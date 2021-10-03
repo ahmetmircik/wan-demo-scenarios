@@ -58,18 +58,12 @@ sleep 20
 echo "Stopping test"
 hz stop
 
-# sync multiple map
+# sync all maps
 pubIpA=$(hz ip -id A Member1)
-curl -H "Content-type: text/plain" -X POST -d "A&IGNORE&wanReplication&A" --URL http://${pubIpA}:5701/hazelcast/rest/wan/sync/allmaps
-sleep 10
-
-pubIpB=$(hz ip -id B Member1)
-curl -H "Content-type: text/plain" -X POST -d "B&IGNORE&wanReplication&B" --URL http://${pubIpB}:5701/hazelcast/rest/wan/sync/allmaps
-sleep 10
-
-pubIpC=$(hz ip -id C Member1)
-curl -H "Content-type: text/plain" -X POST -d "C&IGNORE&wanReplication&C" --URL http://${pubIpC}:5701/hazelcast/rest/wan/sync/allmaps
-sleep 10
+for group in B C; do
+  curl -H "Content-type: text/plain" -X POST -d "A&IGNORE&wanReplication&${group}" --URL http://${pubIpA}:5701/hazelcast/rest/wan/sync/allmaps
+  sleep 10
+done
 
 echo "Dumping maps"
 hz driver Client2
