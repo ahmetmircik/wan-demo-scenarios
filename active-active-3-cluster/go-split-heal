@@ -28,9 +28,9 @@ mOps="${mOps} -Dhz.network.rest-api.enabled=true -Dhz.network.rest-api.endpoint-
 hz memberOps "-Xms4G -Xmx4G ${ops} ${mOps}"
 hz clientOps "-Xms400M -Xmx400M ${ops}"
 
-hz cluster -id A -tag AA -size M3C2 -v ${hzVersion} -ee -boxes a.box
-hz cluster -id B -tag BB -size M3C2 -v ${hzVersion} -ee -boxes b.box
-hz cluster -id C -tag CC -size M3C2 -v ${hzVersion} -ee -boxes c.box
+hz cluster -id A -size M3C2 -v ${hzVersion} -ee -boxes a.box
+hz cluster -id B -size M3C2 -v ${hzVersion} -ee -boxes b.box
+hz cluster -id C -size M3C2 -v ${hzVersion} -ee -boxes c.box
 
 echo 'Configuring WAN Active Active'
 hz wan A B C
@@ -62,6 +62,7 @@ done
 echo "Sleeping 20 seconds"
 sleep 20
 
+
 hz driver Member1
 echo "Splitting all"
 hz split A B C
@@ -74,6 +75,7 @@ hz heal
 
 echo "Waiting 20 seconds after heal"
 sleep 20
+
 
 #pubIp=$(hz ip -id A Member1);
 #for group in B C ${hzVersion} ; do
