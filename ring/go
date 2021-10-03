@@ -5,9 +5,9 @@ hzVersion=${1:-$(hazelcastVersion)}
 
 #creating the ec2 instances in files a b and c
 #a.box is just a list of ip addresses. each line has the format --> public,preivate,instanceID
-aws-create --count 2 --outputFile a.box
-aws-create --count 2 --outputFile b.box
-aws-create --count 2 --outputFile c.box
+aws-create --count 2 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
+aws-create --count 2 --region us-east-1 --outputFile b.box
+aws-create --count 2 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
 #these are member and client jvm option which will be passed to the remote jvm running on the ec2 instances
 #we are using EE jars so we set the license key.
