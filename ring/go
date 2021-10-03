@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+set -e
+
+hzVersion=$(hazelcastVersion)
+
+#creating the ec2 instances in files a b and c
+#a.box is just a list of ip addresses. each line has the format --> public,preivate,instanceID
+aws-create --count 2 --outputFile a.box
+aws-create --count 2 --outputFile b.box
+aws-create --count 2 --outputFile c.box
+
+#these are member and client jvm option which will be passed to the remote jvm running on the ec2 instances
+#we are using EE jars so we set the license key.
+hzProps="${hzProps} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.backpressure.enabled=true"
+hzProps="${hzProps} -Dlog4j.configuration=file:./log4j.properties -Dhazelcast.logging.type=log4j"
+hz memberOps "-Xms3G -Xmx3G ${hzProps}"
+hz clientOps "-Xms200M -Xmx400M ${hzProps}"
+
+hz cluster -id A -tag AA  -size M2C2 -v 4.1          -ee -boxes a.box -user ec2-user -upcwd log4j.properties
+hz cluster -id B -tag BB  -size M2C2 -v 4.2          -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id C -tag CC  -size M2C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
+
+
+#setting up the wan replication between clusters.
+#this sets up a active active wan replication between all 3 clusters. as in the diagram below.
+# A - B
+#  \ /
+#   C
+#we are using the cluster ID  A replication to B and C
+hz wan A B C
+hz wan B A C
+hz wan C A B
+
+#for the new wan configuration to take effect the cluster must be bounced "restarted" and the new xml config will be used
+hz bounce Member
+
+#hear we run load on cluster A.  each member of cluster A which are "drivers"  put 1000 items into the maps and caches
+#see the file load
+hz run -id A load
+
+#hear we sleep a littel to wait for wan replication to fill the structs on the other caches.
+sleep 15
+
+#hear we run validate on all member of all clusters, to check the data is replicated as expected.
+hz run validate
+
+#we clea the data from all structs in all Clusters.
+hz run clear
+hz run validateZero
+
+
+#create a network split, blocking TCP coms IN and OUT  between AA and BB  and AA and CC, so AA is isolated
+#hear we are using the tag name AA split from BB and CC
+hz split AA BB CC
+
+#we make the same load on cluster A
+hz run -id A load
+hz run -id A validate
+sleep 15
+
+#hear we expect that the structs in BB and CC are empty, as wan replication can not happen
+hz run -id B validateZero
+hz run -id C validateZero
+
+#heal the network back to normal state.
+hz heal
+
+
+
+#set the duration for the next tasks to be run.
+hz duration 4000
+
+#run put operation from all members and all client in all clusters
+#we run this in the background with &,  which allows the script to continue.
+hz run put &
+
+#in the loop we repeatedly split and heal the network.
+#the put operation are still running in the cluster, the wan replication system is working
+#and as the same time we are overflowing the wan queues, putting stress on the cluster.
+#we are looking to see if the clusters OOME / crash under load when the wan connection is
+#unreliable / interupted.
+for i in {0..30} ; do
+    sleep 20
+    hz split AA BB CC
+    sleep 20
+    hz heal
+
+    #hear we just check all the remote cluster for problems.
+    hz check || true
+done
+
+#stop the put operation that are running on the clusters
+hz stop
+wait
+
+#wait for wan queue to be cleared after all there puts
+sleep 60
+#another quick clear and load, just to check replication is still working after the split heal cycle.
+hz run clear
+hz run validateZero
+
+hz run -id A load
+sleep 15
+hz run validate
+
