@@ -85,9 +85,11 @@ for i in {1..2} ; do
     hz run untilClients2
 
     hz boot Member.*BB
+    hz driver Member.*BB
     hz run untilClients0
 
     hz boot Member.*CC
+    hz driver Member.*CC
     hz run untilClients0
 done
 #
