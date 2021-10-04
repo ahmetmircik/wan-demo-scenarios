@@ -1,0 +1,2 @@
+clusterShutdown@class=hzcmd.ops.ClusterShutDown
+clusterShutdown@duration=600

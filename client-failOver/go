@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -e
+cleanup() {
+    exitCode=$?
+    hz jstack
+    hz stop
+    exit ${exitCode}
+}
+trap "cleanup" INT TERM EXIT
+
+
+aws-create --count 3 --outputFile a.box
+aws-create --count 3 --outputFile b.box
+aws-create --count 3 --outputFile c.box
+
+ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+hz memberOps "-Xms250M -Xmx250M ${ops}"
+hz clientOps "-Xms100M -Xmx100M ${ops}"
+
+hzVersion=$(hazelcastVersion)
+hz cluster -id A -tag AA -size M6C1 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
+hz cluster -id B -tag BB -size M6C1 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+
+hz wan A B
+hz wan B A
+hz bounce
+cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
+cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
+
+hz kill Client
+
+hz failOverClient
+hz cluster -id C -tag CC -size C12 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,log4j.properties
+
+hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
+
+hz driver Client
+hz run put &
+sleep 10
+
+wait
+
+hz download
+
+hz wipe
+
+aws-terminate -r us-west-1 a.box
+aws-terminate -r us-east-1 b.box
+aws-terminate -r us-east-2 c.box
+
+
