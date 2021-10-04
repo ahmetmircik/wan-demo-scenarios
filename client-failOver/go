@@ -27,7 +27,7 @@ hz clientOps "-Xms100M -Xmx100M ${ops}"
 
 hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
 hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
-hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 hz wan A B C
 hz wan B C A
