@@ -13,7 +13,7 @@ finalCleanup() {
     aws-terminate a.box b.box c.box
     exit ${exitCode}
 }
-trap "finalCleanup" INT TERM EXIT
+trap finalCleanup INT TERM EXIT
 
 hzVersion=${1:-$(hazelcastVersion)}
 
