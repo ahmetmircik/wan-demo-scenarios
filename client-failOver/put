@@ -2,16 +2,3 @@ put_mapBak1HD@class=hzcmd.map.Put
 put_mapBak1HD@threads=4
 put_mapBak1HD@name=mapBak1HD
 
-put_mapBak1@class=hzcmd.map.Put
-put_mapBak1@threads=4
-put_mapBak1@keyDomain=1000
-put_mapBak1@name=mapBak1
-
-put_cacheBak1HD@class=hzcmd.cache.Put
-put_cacheBak1HD@threads=4
-put_cacheBak1HD@name=cacheBak1HD
-
-put_cacheBak1@class=hzcmd.cache.Put
-put_cacheBak1@threads=4
-put_cacheBak1@keyDomain=1000
-put_cacheBak1@name=cacheBak1
