@@ -7,5 +7,6 @@
     <clients>
         <client>client-hazelcast-A.xml</client>
         <client>client-hazelcast-B.xml</client>
+        <client>client-hazelcast-C.xml</client>
     </clients>
 </hazelcast-client-failover>
