@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 set -e
 
+finalCleanup() {
+    exitCode=$?
+    hz jstack
+    hz stop
+
+    hz download
+
+    hz wipe
+
+    aws-terminate a.box b.box c.box
+    exit ${exitCode}
+}
+trap "finalCleanup" INT TERM EXIT
+
 hzVersion=${1:-$(hazelcastVersion)}
 
 aws-create --count 3 --outputFile a.box
@@ -75,17 +89,6 @@ for i in {1..2} ; do
     hz boot Member.*CC
     hz run untilClients0
 done
-
-
-hz stop
-wait
-
-hz download
-
-hz wipe
-
-aws-terminate a.box b.box c.box
-
 #
 #1. We create 3 clusters with 3 members in each. Then create a failover client,
 #this client reaches all data
