@@ -20,6 +20,9 @@ hz bounce
 cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
 cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
 
+echo "Sleep before client kill"
+sleep 200
+
 hz kill Client
 
 hz failOverClient
