@@ -23,7 +23,7 @@ cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
 hz kill Client
 
 hz failOverClient
-hz cluster -id C -tag CC -size C12 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,log4j.properties
+hz cluster -id C -tag CC -size C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,log4j.properties
 
 hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
 
@@ -31,6 +31,7 @@ hz driver Client
 hz run put &
 sleep 10
 
+hz stop
 wait
 
 hz download
