@@ -10,16 +10,20 @@ finalCleanup() {
 
     hz wipe
 
-    aws-terminate a.box b.box c.box
+    aws-terminate -r us-west-1 a.box
+    aws-terminate -r us-east-1 b.box
+    aws-terminate -r us-east-2 c.box
+
     exit ${exitCode}
 }
 trap finalCleanup INT TERM EXIT
 
 hzVersion=${1:-$(hazelcastVersion)}
 
-aws-create --count 3 --outputFile a.box
-aws-create --count 3 --outputFile b.box
-aws-create --count 3 --outputFile c.box
+
+aws-create --count 3 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
+aws-create --count 3 --region us-east-1 --outputFile b.box
+aws-create --count 3 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
 hz memberOps "-Xms250M -Xmx250M ${ops}"
@@ -61,7 +65,7 @@ hz run untilClients0
 hz driver Member1CC
 hz run untilClients0
 
-for i in {1..2} ; do
+for i in {1..1} ; do
     hz driver Member1AA
     hz run clusterShutDown
 
@@ -92,6 +96,30 @@ for i in {1..2} ; do
     hz driver Member.*CC
     hz run untilClients0
 done
+
+
+for i in {1..1} ; do
+    hz driver Member.*AA
+    hz run clientSelectorNone
+    hz run untilClients0
+
+    hz driver Member.*BB
+    hz run untilClients2
+
+    hz driver Member.*AA
+    hz run clientSelectorAny
+
+    hz driver Member.*BB
+    hz run clientSelectorNone
+    hz run untilClients0
+
+    hz driver Member.*AA
+    hz run untilClients2
+
+    hz driver Member.*BB
+    hz run clientSelectorAny
+done
+
 #
 #1. We create 3 clusters with 3 members in each. Then create a failover client,
 #this client reaches all data
