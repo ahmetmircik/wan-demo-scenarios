@@ -11,28 +11,71 @@ ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
 hz memberOps "-Xms250M -Xmx250M ${ops}"
 hz clientOps "-Xms100M -Xmx100M ${ops}"
 
-hz cluster -id A -tag AA -size M6C1 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
-hz cluster -id B -tag BB -size M6C1 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
+hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
 
-hz wan A B
-hz wan B A
+hz wan A B C
+hz wan B C A
+hz wan C A B
+
 hz bounce
+
 cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
 cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
+cp config-hz/C/client-hazelcast.xml client-hazelcast-C.xml
 
-echo "Sleep before client kill"
-sleep 200
-
-hz kill Client
-
+echo "Creating failover clients"
+# Write to properties file that we are no enabling failover client
 hz failOverClient
-hz cluster -id C -tag CC -size C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,log4j.properties
+hz cluster -id A -tag AA -size C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,client-hazelcast-C.xml,log4j.properties
 
 hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
+
 
 hz driver Client
 hz run put &
 sleep 10
+
+hz driver Member1AA
+hz run untilClients2
+
+hz driver Member1BB
+hz run untilClients0
+
+hz driver Member1CC
+hz run untilClients0
+
+for i in {1..2} ; do
+    hz driver Member1AA
+    hz run clusterShutDown
+
+    hz driver Member.*BB
+    hz run untilClients2
+
+    hz driver Member1BB
+    hz run clusterShutDown
+
+    hz driver Member.*CC
+    hz run untilClients2
+
+    hz boot Member.*AA
+    hz driver Member.*AA
+    hz run untilClients0
+
+    hz driver Member1CC
+    hz run clusterShutDown
+
+    hz driver Member.*AA
+    hz run untilClients2
+
+    hz boot Member.*BB
+    hz run untilClients0
+
+    hz boot Member.*CC
+    hz run untilClients0
+done
+
 
 hz stop
 wait
@@ -41,8 +84,9 @@ hz download
 
 hz wipe
 
-aws-terminate -r us-west-1 a.box
-aws-terminate -r us-east-1 b.box
-aws-terminate -r us-east-2 c.box
+aws-terminate a.box b.box c.box
 
-
+#
+#1. We create 3 clusters with 3 members in each. Then create a failover client,
+#this client reaches all data
+#2. then cluster will be available again and client reconnects there.
