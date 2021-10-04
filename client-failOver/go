@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
-
 set -e
-cleanup() {
-    exitCode=$?
-    hz jstack
-    hz stop
-    exit ${exitCode}
-}
-trap "cleanup" INT TERM EXIT
 
+hzVersion=${1:-$(hazelcastVersion)}
 
 aws-create --count 3 --outputFile a.box
 aws-create --count 3 --outputFile b.box
@@ -18,7 +11,6 @@ ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
 hz memberOps "-Xms250M -Xmx250M ${ops}"
 hz clientOps "-Xms100M -Xmx100M ${ops}"
 
-hzVersion=$(hazelcastVersion)
 hz cluster -id A -tag AA -size M6C1 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
 hz cluster -id B -tag BB -size M6C1 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
 
