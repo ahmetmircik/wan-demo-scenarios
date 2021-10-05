@@ -2,23 +2,14 @@
 set -e
 
 finalCleanup() {
-    exitCode=$?
-    hz jstack
-    hz stop
-
     hz download
-
     hz wipe
 
     aws-terminate -r us-west-1 a.box
     aws-terminate -r us-east-1 b.box
     aws-terminate -r us-east-2 c.box
-
-    exit ${exitCode}
 }
 trap finalCleanup INT TERM EXIT
-
-hzVersion=${1:-$(hazelcastVersion)}
 
 
 aws-create --count 3 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
@@ -28,9 +19,9 @@ aws-create --count 3 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnet
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
 ops="${ops} -Dlog4j.configuration=file:./log4j.properties -Dhazelcast.logging.type=log4j"
 
+hzVersion=5.1-SNAPSHOT
 hz memberOps "-Xms250M -Xmx250M ${ops}"
 hz clientOps "-Xms100M -Xmx100M ${ops}"
-
 hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
 hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
 hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
@@ -45,25 +36,23 @@ cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
 cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
 cp config-hz/C/client-hazelcast.xml client-hazelcast-C.xml
 
-echo "Creating failover clients"
-# Write to properties file that we are no enabling failover client
+echo "Creating fail over clients"
 hz failOverClient
 hz cluster -id A -tag AA -size C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,client-hazelcast-C.xml,log4j.properties
 
 hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
-
 hz driver Client
 hz run put &
 sleep 10
 
 echo "First check initially expected client counts"
-hz driver Member1AA
+hz driver Member.*AA
 hz run untilClients2
 
-hz driver Member1BB
+hz driver Member.*BB
 hz run untilClients0
 
-hz driver Member1CC
+hz driver Member.*CC
 hz run untilClients0
 
 echo "Start shutdown and reboot cycle"
