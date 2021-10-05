@@ -41,11 +41,11 @@ hz failOverClient
 hz cluster -id A -tag AA -size C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,client-hazelcast-C.xml,log4j.properties
 
 hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
-
 hz driver Client
 hz run put &
 sleep 10
 
+echo "First check initially expected client counts"
 hz driver Member.*AA
 hz run untilClients2
 
@@ -55,6 +55,7 @@ hz run untilClients0
 hz driver Member.*CC
 hz run untilClients0
 
+echo "Start shutdown and reboot cycle"
 for i in {1..1} ; do
     hz driver Member1AA
     hz run clusterShutDown
