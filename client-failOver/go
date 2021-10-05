@@ -11,32 +11,30 @@ finalCleanup() {
 }
 trap finalCleanup INT TERM EXIT
 
-
-aws-create --count 3 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
-aws-create --count 3 --region us-east-1 --outputFile b.box
+aws-create --count 3 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6          --key jenkins-ec2-key --outputFile a.box
+aws-create --count 3 --region us-east-1 --imageId ami-05d1de0f40492c232 --subnetId subnet-378d2140          --key jenkins-ec2-key --outputFile b.box
 aws-create --count 3 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
-ops="${ops} -Dlog4j.configuration=file:./log4j.properties -Dhazelcast.logging.type=log4j"
-
 hzVersion=5.1-SNAPSHOT
+hz pub
 hz memberOps "-Xms250M -Xmx250M ${ops}"
 hz clientOps "-Xms100M -Xmx100M ${ops}"
-hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
-hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
-hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
+hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box
+hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box
+hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes c.box
 
 hz wan A B C
 hz wan B C A
 hz wan C A B
 hz bounce
 
-echo "Creating fail over clients"
+
 cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
 cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
 cp config-hz/C/client-hazelcast.xml client-hazelcast-C.xml
 hz failOverClient
-hz cluster -id A -tag AA -size C3 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,client-hazelcast-C.xml,log4j.properties
+hz cluster -id A -tag AA -size C3 -v ${hzVersion} -ee -boxes a.box -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,client-hazelcast-C.xml,log4j.properties
 
 hz ignore com.hazelcast.core.HazelcastException
 hz driver Client
