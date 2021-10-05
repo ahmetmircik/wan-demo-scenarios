@@ -2,6 +2,7 @@
 set -e
 
 finalCleanup() {
+  echo "Running finalCleanup"
   hz download
   hz wipe
 
