@@ -45,8 +45,6 @@ cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
 cp config-hz/B/client-hazelcast.xml client-hazelcast-B.xml
 cp config-hz/C/client-hazelcast.xml client-hazelcast-C.xml
 
-hz kill Client
-
 echo "Creating failover clients"
 # Write to properties file that we are no enabling failover client
 hz failOverClient
