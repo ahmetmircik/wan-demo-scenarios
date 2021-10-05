@@ -2,7 +2,7 @@
 <hazelcast xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.hazelcast.com/schema/config
-            http://www.hazelcast.com/schema/config/hazelcast-config-5.0.xsd">
+           http://www.hazelcast.com/schema/config/hazelcast-config-5.0.xsd">
 
     <properties>
         <property name="hazelcast.phone.home.enabled">false</property>
@@ -28,15 +28,9 @@
         </rest-api>
     </network>
 
-    <hot-restart-persistence enabled="false">
-        <data-load-timeout-seconds>1700</data-load-timeout-seconds>
-        <base-dir>hot-junk</base-dir>
-    </hot-restart-persistence>
-
     <native-memory allocator-type="POOLED" enabled="true">
-        <size unit="GIGABYTES" value="10"/>
+        <size unit="GIGABYTES" value="2"/>
     </native-memory>
-
 
     <map name="mapBak1HD*">
         <backup-count>1</backup-count>
