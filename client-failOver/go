@@ -2,15 +2,18 @@
 set -e
 
 finalCleanup() {
-    hz download
-    hz wipe
+  hz download
+  hz wipe
 
-    aws-terminate -r us-west-1 a.box
-    aws-terminate -r us-east-1 b.box
-    aws-terminate -r us-east-2 c.box
+  aws-terminate -r us-west-1 a.box
+  aws-terminate -r us-east-1 b.box
+  aws-terminate -r us-east-2 c.box
 }
 trap finalCleanup INT TERM EXIT
 
+defaultHazelcastVersion=5.1-SNAPSHOT
+
+hzVersion=${1:-$(defaultHazelcastVersion)}
 
 aws-create --count 3 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
 aws-create --count 3 --region us-east-1 --outputFile b.box
@@ -19,7 +22,6 @@ aws-create --count 3 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnet
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
 ops="${ops} -Dlog4j.configuration=file:./log4j.properties -Dhazelcast.logging.type=log4j"
 
-hzVersion=5.1-SNAPSHOT
 hz memberOps "-Xms250M -Xmx250M ${ops}"
 hz clientOps "-Xms100M -Xmx100M ${ops}"
 hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
@@ -56,59 +58,58 @@ hz driver Member.*CC
 hz run untilClients0
 
 echo "Start shutdown and reboot cycle"
-for i in {1..1} ; do
-    hz driver Member1AA
-    hz run clusterShutDown
+for i in {1..1}; do
+  hz driver Member1AA
+  hz run clusterShutDown
 
-    hz driver Member.*BB
-    hz run untilClients2
+  hz driver Member.*BB
+  hz run untilClients2
 
-    hz driver Member1BB
-    hz run clusterShutDown
+  hz driver Member1BB
+  hz run clusterShutDown
 
-    hz driver Member.*CC
-    hz run untilClients2
+  hz driver Member.*CC
+  hz run untilClients2
 
-    hz boot Member.*AA
-    hz driver Member.*AA
-    hz run untilClients0
+  hz boot Member.*AA
+  hz driver Member.*AA
+  hz run untilClients0
 
-    hz driver Member1CC
-    hz run clusterShutDown
+  hz driver Member1CC
+  hz run clusterShutDown
 
-    hz driver Member.*AA
-    hz run untilClients2
+  hz driver Member.*AA
+  hz run untilClients2
 
-    hz boot Member.*BB
-    hz driver Member.*BB
-    hz run untilClients0
+  hz boot Member.*BB
+  hz driver Member.*BB
+  hz run untilClients0
 
-    hz boot Member.*CC
-    hz driver Member.*CC
-    hz run untilClients0
+  hz boot Member.*CC
+  hz driver Member.*CC
+  hz run untilClients0
 done
 
+for i in {1..1}; do
+  hz driver Member.*AA
+  hz run clientSelectorNone
+  hz run untilClients0
 
-for i in {1..1} ; do
-    hz driver Member.*AA
-    hz run clientSelectorNone
-    hz run untilClients0
+  hz driver Member.*BB
+  hz run untilClients2
 
-    hz driver Member.*BB
-    hz run untilClients2
+  hz driver Member.*AA
+  hz run clientSelectorAny
 
-    hz driver Member.*AA
-    hz run clientSelectorAny
+  hz driver Member.*BB
+  hz run clientSelectorNone
+  hz run untilClients0
 
-    hz driver Member.*BB
-    hz run clientSelectorNone
-    hz run untilClients0
+  hz driver Member.*AA
+  hz run untilClients2
 
-    hz driver Member.*AA
-    hz run untilClients2
-
-    hz driver Member.*BB
-    hz run clientSelectorAny
+  hz driver Member.*BB
+  hz run clientSelectorAny
 done
 
 #
