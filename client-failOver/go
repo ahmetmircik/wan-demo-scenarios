@@ -56,6 +56,7 @@ hz driver Client
 hz run put &
 sleep 10
 
+echo "First check initially expected client counts"
 hz driver Member1AA
 hz run untilClients2
 
@@ -65,6 +66,7 @@ hz run untilClients0
 hz driver Member1CC
 hz run untilClients0
 
+echo "Start shutdown and reboot cycle"
 for i in {1..1} ; do
     hz driver Member1AA
     hz run clusterShutDown
