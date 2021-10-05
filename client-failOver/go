@@ -33,6 +33,8 @@ hz wan A B C
 hz wan B C A
 hz wan C A B
 
+hz publicIp A B C
+
 hz bounce
 
 cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
