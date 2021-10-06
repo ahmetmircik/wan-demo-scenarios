@@ -43,7 +43,7 @@ sleep 10
 
 echo "First check initially expected client counts"
 hz driver Member.*AA
-hz run untilClients2
+hz run untilClients3
 
 hz driver Member.*BB
 hz run untilClients0
@@ -57,13 +57,13 @@ for i in {1..1} ; do
     hz run clusterShutDown
 
     hz driver Member.*BB
-    hz run untilClients2
+    hz run untilClients3
 
     hz driver Member1BB
     hz run clusterShutDown
 
     hz driver Member.*CC
-    hz run untilClients2
+    hz run untilClients3
 
     hz boot Member.*AA
     hz driver Member.*AA
@@ -73,7 +73,7 @@ for i in {1..1} ; do
     hz run clusterShutDown
 
     hz driver Member.*AA
-    hz run untilClients2
+    hz run untilClients3
 
     hz boot Member.*BB
     hz driver Member.*BB
@@ -91,7 +91,7 @@ for i in {1..1} ; do
     hz run untilClients0
 
     hz driver Member.*BB
-    hz run untilClients2
+    hz run untilClients3
 
     hz driver Member.*AA
     hz run clientSelectorAny
@@ -101,7 +101,7 @@ for i in {1..1} ; do
     hz run untilClients0
 
     hz driver Member.*AA
-    hz run untilClients2
+    hz run untilClients3
 
     hz driver Member.*BB
     hz run clientSelectorAny
