@@ -42,8 +42,6 @@ hz wan A B C
 hz wan B C A
 hz wan C A B
 
-hz mcUrl A B C -url http://54.234.187.245:8080/hazelcast-mancenter/
-
 #for the new wan configuration to take effect the cluster must be bounced
 # "restarted" and the new xml config will be used
 hz bounce Member
