@@ -93,6 +93,7 @@ for i in {1..1}; do
   hz run untilClients0
 done
 
+echo "Start client selector tests"
 for i in {1..1}; do
   hz driver Member.*AA
   hz run clientSelectorNone
@@ -108,11 +109,17 @@ for i in {1..1}; do
   hz run clientSelectorNone
   hz run untilClients0
 
-  hz driver Member.*AA
+  hz driver Member.*CC
   hz run untilClients2
+
+  hz driver Member.*CC
+  hz run clientSelectorNone
 
   hz driver Member.*BB
   hz run clientSelectorAny
+
+  hz driver Member.*BB
+    hz run untilClients2
 done
 
 #
