@@ -118,7 +118,7 @@ for i in {1..1}; do
   hz driver Member.*BB
   hz run clientSelectorAny
 
-  hz driver Member.*BB
+  hz driver Member.*AA
     hz run untilClients2
 done
 
