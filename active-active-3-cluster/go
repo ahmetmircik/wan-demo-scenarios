@@ -65,8 +65,8 @@ done
 #hz driver Client1
 #hz run -id '(A|B|C)' prefixPut &
 
-echo "Sleeping 200 seconds"
-sleep 200
+echo "Sleeping 20 seconds"
+sleep 20
 
 echo "Stopping test"
 hz stop
