@@ -42,6 +42,8 @@ hz wan A B C
 hz wan B C A
 hz wan C A B
 
+hz publicIp A B C
+
 #for the new wan configuration to take effect the cluster must be bounced
 # "restarted" and the new xml config will be used
 hz bounce Member
@@ -73,8 +75,8 @@ done
 #hz driver Client1
 #hz run -id '(A|B|C)' prefixPut &
 
-echo "Sleeping 20 seconds"
-sleep 20
+echo "Sleeping 300 seconds"
+sleep 300
 
 echo "Stopping test"
 hz stop
