@@ -1,0 +1,11 @@
+prefixRemove@class=hzcmd.map.multi.PreFixRemove
+prefixRemove@prefix=A
+prefixRemove@threads=5
+prefixRemove@interval=1
+prefixRemove@count=6
+prefixRemove@keyDomain=1000
+prefixRemove@name=mapBak1HD
+prefixRemove@ignore=com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
+
+
+

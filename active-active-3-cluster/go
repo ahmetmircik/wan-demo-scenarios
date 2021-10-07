@@ -62,6 +62,14 @@ for clusterID in A B C; do
   hz submit -id ${clusterID} prefixPut
 done
 
+hz driver Client1
+for clusterID in A B C; do
+  #  change prefix in file
+  hz task prefixRemove prefixRemove prefix ${clusterID}
+  #  async run prefixRemove
+  hz submit -id ${clusterID} prefixRemove
+done
+
 #hz driver Client1
 #hz run -id '(A|B|C)' prefixPut &
 
