@@ -7,8 +7,15 @@
     <properties>
         <property name="hazelcast.phone.home.enabled">false</property>
         <property name="hazelcast.partition.count">271</property>
-        <property name="hazelcast.operation.call.timeout.millis">1000</property>
+        <property name="hazelcast.operation.call.timeout.millis">1000
+        </property>
     </properties>
+
+    <metrics enabled="true">
+        <management-center enabled="true"/>
+        <jmx enabled="false"/>
+        <collection-frequency-seconds>5</collection-frequency-seconds>
+    </metrics>
 
     <network>
         <port auto-increment="true" port-count="200">5701</port>
@@ -44,7 +51,9 @@
         <in-memory-format>NATIVE</in-memory-format>
 
         <wan-replication-ref name="wanReplication">
-            <merge-policy-class-name>com.hazelcast.spi.merge.PassThroughMergePolicy</merge-policy-class-name>
+            <merge-policy-class-name>
+                com.hazelcast.spi.merge.PassThroughMergePolicy
+            </merge-policy-class-name>
         </wan-replication-ref>
     </map>
 </hazelcast>

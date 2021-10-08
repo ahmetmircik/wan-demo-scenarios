@@ -7,8 +7,15 @@
     <properties>
         <property name="hazelcast.phone.home.enabled">false</property>
         <property name="hazelcast.partition.count">271</property>
-        <property name="hazelcast.network.rest-api.enabled">true</property>
+        <property name="hazelcast.network.rest-api.enabled">true
+        </property>
     </properties>
+
+    <metrics enabled="true">
+        <management-center enabled="true"/>
+        <jmx enabled="false"/>
+        <collection-frequency-seconds>5</collection-frequency-seconds>
+    </metrics>
 
 
     <network>
@@ -25,13 +32,19 @@
 
     <serialization>
         <data-serializable-factories>
-            <data-serializable-factory factory-id="1">hzcmd.model.EmployeeDataSerializableFactory</data-serializable-factory>
-            <data-serializable-factory factory-id="7891">hzcmd.model.person.PersonIdentifiedDataSerializableFactory</data-serializable-factory>
+            <data-serializable-factory factory-id="1">
+                hzcmd.model.EmployeeDataSerializableFactory
+            </data-serializable-factory>
+            <data-serializable-factory factory-id="7891">
+                hzcmd.model.person.PersonIdentifiedDataSerializableFactory
+            </data-serializable-factory>
         </data-serializable-factories>
 
         <portable-version>0</portable-version>
         <portable-factories>
-            <portable-factory factory-id="1239">hzcmd.model.person.PersonPortableFactory</portable-factory>
+            <portable-factory factory-id="1239">
+                hzcmd.model.person.PersonPortableFactory
+            </portable-factory>
         </portable-factories>
     </serialization>
 
@@ -52,7 +65,9 @@
         <in-memory-format>NATIVE</in-memory-format>
 
         <wan-replication-ref name="wanReplication">
-            <merge-policy-class-name>com.hazelcast.spi.merge.PassThroughMergePolicy</merge-policy-class-name>
+            <merge-policy-class-name>
+                com.hazelcast.spi.merge.PassThroughMergePolicy
+            </merge-policy-class-name>
         </wan-replication-ref>
     </map>
 
