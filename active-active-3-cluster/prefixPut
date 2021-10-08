@@ -1,6 +1,6 @@
 prefixPut@class=hzcmd.map.multi.PreFixPut
 prefixPut@prefix=A
-prefixPut@threads=5
+prefixPut@threads=3
 prefixPut@interval=1
 prefixPut@count=6
 prefixPut@keyDomain=1000

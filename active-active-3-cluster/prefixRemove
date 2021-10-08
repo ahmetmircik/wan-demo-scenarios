@@ -1,6 +1,6 @@
 prefixRemove@class=hzcmd.map.multi.PreFixRemove
 prefixRemove@prefix=A
-prefixRemove@threads=5
+prefixRemove@threads=2
 prefixRemove@interval=1
 prefixRemove@count=6
 prefixRemove@keyDomain=1000
