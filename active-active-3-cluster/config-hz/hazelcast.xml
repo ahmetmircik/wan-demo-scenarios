@@ -48,7 +48,7 @@
         </portable-factories>
     </serialization>
 
-    <hot-restart-persistence enabled="false">
+    <hot-restart-persistence enabled="true">
         <data-load-timeout-seconds>1700</data-load-timeout-seconds>
         <base-dir>hot-junk</base-dir>
     </hot-restart-persistence>
