@@ -79,13 +79,16 @@ sleep 20
 
 echo "Stopping test"
 hz stop
+#TODO
+# wan is replicating even test is stopped.
+# hz wan queue capacity configuration ability
 
 # sync all maps
-pubIpA=$(hz ip -id A Member1)
-for group in B C; do
-  curl -H "Content-type: text/plain" -X POST -d "A&IGNORE&wanReplication&${group}" --URL http://${pubIpA}:5701/hazelcast/rest/wan/sync/allmaps
-  sleep 10
-done
+#pubIpA=$(hz ip -id A Member1)
+#for group in B C; do
+#  curl -H "Content-type: text/plain" -X POST -d "A&IGNORE&wanReplication&${group}" --URL http://${pubIpA}:5701/hazelcast/rest/wan/sync/allmaps
+#  sleep 10
+#done
 
 echo "Dumping maps"
 hz driver Client2
