@@ -8,6 +8,7 @@ prefixPut@valueSetSize=10
 prefixPut@valueMinSize=1024
 prefixPut@valueMaxSize=4096
 prefixPut@name=mapBak1HD
+prefixPut@valueType=PersonIdentifiedDataSerializable
 prefixPut@ignore=com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
 
 
