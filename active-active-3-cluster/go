@@ -87,7 +87,11 @@ for group in B C; do
   sleep 10
 done
 
-echo "Dumping wan dumpWanStats"
+echo "Dumping maps"
+hz driver Client2
+hz run -id '(A|B|C)' dump
+
+echo "Dumping wan stats"
 hz driver Member
 hz run -id '(A|B|C)' dumpWanStats
 
