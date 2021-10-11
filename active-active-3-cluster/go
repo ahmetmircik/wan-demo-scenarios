@@ -23,9 +23,11 @@ aws-create --count 5 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnet
 aws-create --count 5 --region us-east-1 --outputFile b.box
 aws-create --count 5 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
-ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.backpressure.enabled=true"
-ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
-ops="${ops} -ea"
+ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+ops="${ops} -Dhazelcast.partition.count=1"
+#ops="${ops} -Dhazelcast.backpressure.enabled=true"
+#ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
+#ops="${ops} -ea"
 
 mOps="${mOps} -Dhazelcast.connection.monitor.interval=1000 -Dhazelcast.connection.monitor.max.faults=30"
 mOps="${mOps} -Dhz.network.rest-api.enabled=true -Dhz.network.rest-api.endpoint-groups.wan.enabled=true"
@@ -42,7 +44,7 @@ hz wan A B C
 hz wan B C A
 hz wan C A B
 
-hz publicIp A B C
+#hz publicIp A B C
 
 #for the new wan configuration to take effect the cluster must be bounced
 # "restarted" and the new xml config will be used
@@ -82,6 +84,7 @@ hz stop
 #TODO
 # wan is replicating even test is stopped.
 # hz wan queue capacity configuration ability
+# test in same region
 
 # sync all maps
 #pubIpA=$(hz ip -id A Member1)
