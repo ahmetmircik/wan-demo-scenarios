@@ -24,7 +24,7 @@ aws-create --count 5 --region us-east-1 --outputFile b.box
 aws-create --count 5 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
-ops="${ops} -Dhazelcast.partition.count=10"
+#ops="${ops} -Dhazelcast.partition.count=10"
 #ops="${ops} -Dhazelcast.backpressure.enabled=true"
 #ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
 #ops="${ops} -ea"
@@ -44,7 +44,7 @@ hz wan A B C
 hz wan B C A
 hz wan C A B
 
-#hz publicIp A B C
+hz publicIp A B C
 
 #for the new wan configuration to take effect the cluster must be bounced
 # "restarted" and the new xml config will be used
@@ -73,8 +73,6 @@ for clusterID in A B C; do
   hz submit -id ${clusterID} prefixRemove
 done
 
-#hz driver Client1
-#hz run -id '(A|B|C)' prefixPut &
 
 echo "Sleeping 20 seconds"
 sleep 20
@@ -84,7 +82,6 @@ hz stop
 #TODO
 # wan is replicating even test is stopped.
 # hz wan queue capacity configuration ability
-# test in same region
 
 # sync all maps
 #pubIpA=$(hz ip -id A Member1)
