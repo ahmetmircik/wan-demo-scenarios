@@ -24,7 +24,7 @@ aws-create --count 5 --region us-east-1 --outputFile b.box
 aws-create --count 5 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
 ops="${ops} -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
-ops="${ops} -Dhazelcast.partition.count=1"
+ops="${ops} -Dhazelcast.partition.count=10"
 #ops="${ops} -Dhazelcast.backpressure.enabled=true"
 #ops="${ops} -Dhazelcast.enterprise.wanrep.batch.size=150"
 #ops="${ops} -ea"
