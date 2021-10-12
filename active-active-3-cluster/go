@@ -73,8 +73,8 @@ for clusterID in A B C; do
   hz submit -id ${clusterID} prefixRemove
 done
 
-echo "Running test for 300 seconds"
-sleep 300
+echo "Running test for 20 seconds"
+sleep 20
 
 echo "Stopping test"
 hz stop
