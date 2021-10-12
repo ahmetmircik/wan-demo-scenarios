@@ -6,9 +6,9 @@ finalCleanup() {
   hz download
   hz wipe
 
-#  aws-terminate -r us-west-1 a.box
-#  aws-terminate -r us-east-1 b.box
-#  aws-terminate -r us-east-2 c.box
+  #  aws-terminate -r us-west-1 a.box
+  #  aws-terminate -r us-east-1 b.box
+  #  aws-terminate -r us-east-2 c.box
 }
 trap finalCleanup INT TERM EXIT
 
@@ -40,9 +40,9 @@ hz cluster -id B -tag BB -size M3C2 -v ${hzVersion} -ee -boxes b.box -user ec2-u
 hz cluster -id C -tag CC -size M3C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 echo 'Configuring WAN Active Active'
-hz wan -queueCapacity 100000 -snapshotEnabled false -merkel A B C
-hz wan -queueCapacity 100000 -snapshotEnabled false -merkel B C A
-hz wan -queueCapacity 100000 -snapshotEnabled false -merkel C A B
+hz wan -queueCapacity 100000 -snapshotEnabled -merkel A B C
+hz wan -queueCapacity 100000 -snapshotEnabled -merkel B C A
+hz wan -queueCapacity 100000 -snapshotEnabled -merkel C A B
 
 hz publicIp A B C
 
@@ -95,4 +95,3 @@ hz run -id '(A|B|C)' dump
 echo "Dumping wan stats"
 hz driver Member
 hz run -id '(A|B|C)' dumpWanStats
-
