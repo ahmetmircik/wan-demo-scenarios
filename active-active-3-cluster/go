@@ -85,6 +85,7 @@ echo "Synchronizing all maps"
 pubIpA=$(hz ip -id A Member1)
 for group in B C; do
   curl -H "Content-type: text/plain" -X POST -d "A&IGNORE&wanReplication&${group}" --URL http://${pubIpA}:5701/hazelcast/rest/wan/sync/allmaps
+  echo
   sleep 10
 done
 
