@@ -40,9 +40,9 @@ hz cluster -id B -tag BB -size M3C2 -v ${hzVersion} -ee -boxes b.box -user ec2-u
 hz cluster -id C -tag CC -size M3C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 echo 'Configuring WAN Active Active'
-hz wan A B C
-hz wan B C A
-hz wan C A B
+hz wan -queueCapacity 100000 -merkel A B C
+hz wan -queueCapacity 100000 -merkel B C A
+hz wan -queueCapacity 100000 -merkel C A B
 
 hz publicIp A B C
 
@@ -74,14 +74,13 @@ for clusterID in A B C; do
 done
 
 
-echo "Sleeping 20 seconds"
-sleep 20
+echo "Sleeping 300 seconds"
+sleep 300
 
 echo "Stopping test"
 hz stop
 #TODO
 # wan is replicating even test is stopped.
-# hz wan queue capacity configuration ability
 
 # sync all maps
 #pubIpA=$(hz ip -id A Member1)
