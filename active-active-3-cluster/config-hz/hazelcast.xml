@@ -66,7 +66,7 @@
 
         <wan-replication-ref name="wanReplication">
             <merge-policy-class-name>
-                com.hazelcast.spi.merge.PassThroughMergePolicy
+                hzcmd.map.member.multi.PersonMapMergePolicy
             </merge-policy-class-name>
         </wan-replication-ref>
     </map>
