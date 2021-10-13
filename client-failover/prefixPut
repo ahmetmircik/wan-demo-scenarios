@@ -1,13 +1,15 @@
 prefixPut@class=hzcmd.map.multi.PreFixPut
-prefixPut@threads=5
+prefixPut@prefix=A
+prefixPut@threads=3
 prefixPut@interval=1
-prefixPut@count=10
+prefixPut@count=6
 prefixPut@keyDomain=1000
-prefixPut@valueSetSize=100
+prefixPut@valueSetSize=10
 prefixPut@valueMinSize=1024
 prefixPut@valueMaxSize=4096
-prefixPut@prefix=A
 prefixPut@name=mapBak1HD
+prefixPut@valueType=PersonIdentifiedDataSerializable
+prefixPut@ignore=com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
 
 
 
