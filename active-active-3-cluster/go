@@ -17,7 +17,7 @@ finalCleanup() {
 }
 trap finalCleanup INT TERM EXIT
 
-defaultHazelcastVersion=5.1-SNAPSHOT
+defaultHazelcastVersion=5.0
 
 hzVersion=${1:-$(defaultHazelcastVersion)}
 

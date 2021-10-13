@@ -10,7 +10,9 @@ trap "cleanup" INT TERM EXIT
 
 set -e
 
-hzVersion=${1:-$(hazelcastVersion)}
+defaultHazelcastVersion=5.0
+
+hzVersion=${1:-$(defaultHazelcastVersion)}
 
 #us-west-1	US West (N. California):ami-02e51256b01eaa9ef subnet-9fa278c6 vpc-b5efd4d1
 #US East (N. Virginia) us-east-1:ami-05d1de0f40492c232
