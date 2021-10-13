@@ -19,7 +19,7 @@ trap finalCleanup INT TERM EXIT
 
 defaultHazelcastVersion=5.0
 
-hzVersion=${1:-$(defaultHazelcastVersion)}
+hzVersion=${1:-$defaultHazelcastVersion}
 
 aws-create --count 3 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
 aws-create --count 3 --region us-east-1 --outputFile b.box
