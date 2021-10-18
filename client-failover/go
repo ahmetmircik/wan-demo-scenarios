@@ -10,10 +10,10 @@ finalCleanup() {
   echo "Closing remote resources"
   hz wipe
 
-  echo "Terminating remote machines"
-  aws-terminate -r us-west-1 a.box
-  aws-terminate -r us-east-1 b.box
-  aws-terminate -r us-east-2 c.box
+  echo "To terminate aws instances, uncomment below lines"
+    #  aws-terminate -r us-west-1 a.box
+    #  aws-terminate -r us-east-1 b.box
+    #  aws-terminate -r us-east-2 c.box
 }
 trap finalCleanup INT TERM EXIT
 
