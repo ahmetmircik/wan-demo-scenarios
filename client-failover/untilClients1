@@ -1,2 +1,2 @@
-untilClientsCount0@class=hzcmd.ops.UntilClientsCount
-untilClientsCount2@count=1
+untilClientsCount1@class=hzcmd.ops.UntilClientsCount
+untilClientsCount1@count=1
