@@ -56,7 +56,7 @@ hz cluster -id A -tag AA -size C2 -v ${hzVersion} -ee -boxes a.box -user ec2-use
 echo "Doing put operations for 30 seconds"
 hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
 hz driver Client
-hz run put &
+hz run setMulti &
 sleep 30
 
 echo "First check initially expected client counts"
