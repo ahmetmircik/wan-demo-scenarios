@@ -45,9 +45,9 @@ mOps="${mOps} -Dhz.network.rest-api.enabled=true -Dhz.network.rest-api.endpoint-
 hz memberOps "-Xms4G -Xmx4G ${ops} ${mOps}"
 hz clientOps "-Xms400M -Xmx400M ${ops}"
 
-hz cluster -id A -tag AA -size M3C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd log4j.properties
-hz cluster -id B -tag BB -size M3C2 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
-hz cluster -id C -tag CC -size M3C2 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
+hz cluster -id A -tag AA -size M3C2 -v "${hzVersion}" -ee -boxes a.box -user ec2-user -upcwd log4j.properties
+hz cluster -id B -tag BB -size M3C2 -v "${hzVersion}" -ee -boxes b.box -user ec2-user -upcwd log4j.properties
+hz cluster -id C -tag CC -size M3C2 -v "${hzVersion}" -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 echo 'Configuring WAN Active Active'
 hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 A B C

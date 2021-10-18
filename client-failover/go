@@ -50,14 +50,15 @@ echo "Creating fail over clients"
 hz failOverClient
 hz cluster -id A -tag AA -size C2 -v ${hzVersion} -ee -boxes a.box -user ec2-user -upcwd failOver-client-hazelcast.xml,client-hazelcast-A.xml,client-hazelcast-B.xml,client-hazelcast-C.xml,log4j.properties
 
+echo "Doing put operations for 30 seconds"
 hz ignore com.hazelcast.spi.exception.RetryableHazelcastException:com.hazelcast.core.OperationTimeoutException:com.hazelcast.spi.exception.TargetDisconnectedException:com.hazelcast.spi.exception.TargetNotMemberException:java.lang.IllegalStateException:com.hazelcast.core.HazelcastInstanceNotActiveException
 hz driver Client
 hz run put &
-sleep 10
+sleep 30
 
 echo "First check initially expected client counts"
 hz driver Member.*AA
-hz run untilClients2
+hz run untilClients3
 
 hz driver Member.*BB
 hz run untilClients0
@@ -71,13 +72,13 @@ for i in {1..1}; do
   hz run clusterShutDown
 
   hz driver Member.*BB
-  hz run untilClients2
+  hz run untilClients3
 
   hz driver Member1BB
   hz run clusterShutDown
 
   hz driver Member.*CC
-  hz run untilClients2
+  hz run untilClients3
 
   hz boot Member.*AA
   hz driver Member.*AA
@@ -87,7 +88,7 @@ for i in {1..1}; do
   hz run clusterShutDown
 
   hz driver Member.*AA
-  hz run untilClients2
+  hz run untilClients3
 
   hz boot Member.*BB
   hz driver Member.*BB
@@ -105,7 +106,7 @@ for i in {1..1}; do
   hz run untilClients0
 
   hz driver Member.*BB
-  hz run untilClients2
+  hz run untilClients3
 
   hz driver Member.*AA
   hz run clientSelectorAny
@@ -115,7 +116,7 @@ for i in {1..1}; do
   hz run untilClients0
 
   hz driver Member.*CC
-  hz run untilClients2
+  hz run untilClients3
 
   hz driver Member.*CC
   hz run clientSelectorNone
@@ -124,7 +125,7 @@ for i in {1..1}; do
   hz run clientSelectorAny
 
   hz driver Member.*AA
-    hz run untilClients2
+    hz run untilClients3
 done
 
 #
