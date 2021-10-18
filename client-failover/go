@@ -77,11 +77,17 @@ for i in {1..1}; do
   hz driver Member.*BB
   hz run untilLeastClients2
 
+  echo "B doing put operations for 60 seconds"
+  sleep 60
+
   hz driver Member1BB
   hz run clusterShutDown
 
   hz driver Member.*CC
   hz run untilLeastClients2
+
+  echo "C doing put operations for 60 seconds"
+  sleep 60
 
   hz boot Member.*AA
   hz driver Member.*AA
@@ -92,6 +98,9 @@ for i in {1..1}; do
 
   hz driver Member.*AA
   hz run untilLeastClients2
+
+  echo "A doing put operations for 60 seconds"
+  sleep 60
 
   hz boot Member.*BB
   hz driver Member.*BB
@@ -111,6 +120,9 @@ for i in {1..1}; do
   hz driver Member.*BB
   hz run untilLeastClients2
 
+  echo "B doing put operations for 60 seconds"
+  sleep 60
+
   hz driver Member.*AA
   hz run clientSelectorAny
 
@@ -121,6 +133,9 @@ for i in {1..1}; do
   hz driver Member.*CC
   hz run untilLeastClients2
 
+  echo "C doing put operations for 60 seconds"
+  sleep 60
+
   hz driver Member.*CC
   hz run clientSelectorNone
 
@@ -128,7 +143,10 @@ for i in {1..1}; do
   hz run clientSelectorAny
 
   hz driver Member.*AA
-    hz run untilLeastClients2
+  hz run untilLeastClients2
+
+  echo "A doing put operations for 60 seconds"
+  sleep 60
 done
 
 #
