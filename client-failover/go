@@ -35,9 +35,9 @@ hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-use
 hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
 echo 'Configuring WAN Active Active'
-hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 A B C
-hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 B C A
-hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 C A B
+hz wan -queueCapacity 10000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 100 A B C
+hz wan -queueCapacity 10000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 100 B C A
+hz wan -queueCapacity 10000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 100 C A B
 
 hz publicIp A B C
 
