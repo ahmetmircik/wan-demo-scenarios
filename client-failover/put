@@ -1,7 +1,5 @@
 put@class=hzcmd.map.Put
 put@threads=4
 put@name=mapBak1HD
-put@threads=5
-put@interval=1
 put@count=6
 

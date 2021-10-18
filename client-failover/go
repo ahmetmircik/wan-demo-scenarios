@@ -34,12 +34,15 @@ hz cluster -id A -tag AA -size M3 -v ${hzVersion} -ee -boxes a.box -user ec2-use
 hz cluster -id B -tag BB -size M3 -v ${hzVersion} -ee -boxes b.box -user ec2-user -upcwd log4j.properties
 hz cluster -id C -tag CC -size M3 -v ${hzVersion} -ee -boxes c.box -user ec2-user -upcwd log4j.properties
 
-hz wan A B C
-hz wan B C A
-hz wan C A B
+echo 'Configuring WAN Active Active'
+hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 A B C
+hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 B C A
+hz wan -queueCapacity 100000 -wanAcknowledgeType ACK_ON_RECEIPT -batchSize 300 C A B
 
 hz publicIp A B C
 
+#for the new wan configuration to take effect the cluster must be bounced
+# "restarted" and the new xml config will be used
 hz bounce
 
 cp config-hz/A/client-hazelcast.xml client-hazelcast-A.xml
@@ -58,13 +61,13 @@ sleep 30
 
 echo "First check initially expected client counts"
 hz driver Member.*AA
-hz run untilClients3
+hz run untilLeastClients2
 
 hz driver Member.*BB
-hz run untilClients0
+hz run untilClients1
 
 hz driver Member.*CC
-hz run untilClients0
+hz run untilClients1
 
 echo "Start shutdown and reboot cycle"
 for i in {1..1}; do
@@ -72,51 +75,51 @@ for i in {1..1}; do
   hz run clusterShutDown
 
   hz driver Member.*BB
-  hz run untilClients3
+  hz run untilLeastClients2
 
   hz driver Member1BB
   hz run clusterShutDown
 
   hz driver Member.*CC
-  hz run untilClients3
+  hz run untilLeastClients2
 
   hz boot Member.*AA
   hz driver Member.*AA
-  hz run untilClients0
+  hz run untilClients1
 
   hz driver Member1CC
   hz run clusterShutDown
 
   hz driver Member.*AA
-  hz run untilClients3
+  hz run untilLeastClients2
 
   hz boot Member.*BB
   hz driver Member.*BB
-  hz run untilClients0
+  hz run untilClients1
 
   hz boot Member.*CC
   hz driver Member.*CC
-  hz run untilClients0
+  hz run untilClients1
 done
 
 echo "Start client selector tests"
 for i in {1..1}; do
   hz driver Member.*AA
   hz run clientSelectorNone
-  hz run untilClients0
+  hz run untilClients1
 
   hz driver Member.*BB
-  hz run untilClients3
+  hz run untilLeastClients2
 
   hz driver Member.*AA
   hz run clientSelectorAny
 
   hz driver Member.*BB
   hz run clientSelectorNone
-  hz run untilClients0
+  hz run untilClients1
 
   hz driver Member.*CC
-  hz run untilClients3
+  hz run untilLeastClients2
 
   hz driver Member.*CC
   hz run clientSelectorNone
@@ -125,7 +128,7 @@ for i in {1..1}; do
   hz run clientSelectorAny
 
   hz driver Member.*AA
-    hz run untilClients3
+    hz run untilLeastClients2
 done
 
 #
