@@ -25,7 +25,7 @@ hzVersion=${1:-$defaultHazelcastVersion}
 #US East (N. Virginia) us-east-1:ami-05d1de0f40492c232
 #Texas is Ohio (us-east-2): ami-093cbcaab778edd5e subnet-0467850a244253773 vpc-0e686372589fd40c8
 aws-create --count 5 --region us-west-1 --imageId ami-02e51256b01eaa9ef --subnetId subnet-9fa278c6 --key jenkins-ec2-key --outputFile a.box
-aws-create --count 5 --region us-east-1 --outputFile b.box
+aws-create --count 5 --region us-east-1 --imageId ami-05d1de0f40492c232 --subnetId subnet-378d2140 --key jenkins-ec2-key --outputFile b.box
 aws-create --count 5 --region us-east-2 --imageId ami-093cbcaab778edd5e --subnetId subnet-0467850a244253773 --key jenkins-ec2-key-east-2 --outputFile c.box
 
 #aws-create --count 5 --region us-east-1 --outputFile a.box
