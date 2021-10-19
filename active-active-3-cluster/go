@@ -7,8 +7,8 @@ finalCleanup() {
   echo "Downloading test logs"
   hz download
 
-  echo "Cleaning remote test resources"
-  hz wipe
+  echo "To clean remote test resources uncomment hz wipe"
+#  hz wipe
 
   echo "To terminate aws instances, uncomment below lines"
   #  aws-terminate -r us-west-1 a.box
